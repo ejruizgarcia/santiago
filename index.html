@@ -110,6 +110,7 @@
 
         .action-buttons {
             display: flex;
+            flex-wrap: wrap;
             gap: 10px;
             margin-bottom: 20px;
         }
@@ -183,8 +184,31 @@
 
         .day-tab.active {
             background-color: var(--accent);
-            transform: scale(1.1);
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Contenedor flexible para el título y el botón dentro de la tarjeta */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Botón de tickets */
+        .ticket-btn {
+            background-color: #e74c3c; /* Rojo */
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .ticket-btn:active {
+            transform: scale(0.95);
         }
 
         header {
@@ -210,11 +234,24 @@
 
         .modal-content {
             background: white;
-            padding: 25px;
             border-radius: 12px;
             width: 100%;
             max-width: 400px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: none;
+        }
+
+        .modal-body-content {
+            padding: 25px;
         }
 
         .modal-title {
@@ -268,29 +305,40 @@
             
             <!-- DÍA 1 -->
             <div class="day-view" data-date="2026-07-29">
-                <div class="day-title">29 de Julio: Santiago</div>
+                <div class="day-title">Miércoles 29: Santiago</div>
                 
                 <div class="action-buttons">
                     <div class="btn">✈️ Billetes Avión</div>
                     <div class="btn" onclick="showAlojamiento()">🏨 Alojamiento</div>
+                    <div class="btn" onclick="alert('Enlace a la reserva de la furgoneta')">🚐 Alquiler furgo</div>
                 </div>
                 
                 <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&waypoints=Catedral+de+Santiago+de+Compostela%7CMonasterio+de+San+Martin+Pinario&travelmode=walking" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta andando (Catedral y Monasterio)</a>
 
                 <div class="card" onclick="showInfo('Free Tour', 'Paseo guiado por las calles principales para conocer a fondo la historia y los secretos que esconde la ciudad monumental.')">
-                    <div class="card-title">Free Tour</div>
+                    <div class="card-header">
+                        <div class="card-title">Free Tour</div>
+                        <button class="ticket-btn" onclick="openTickets(event)">🎟️ Tickets</button>
+                    </div>
                 </div>
                 <div class="card" onclick="showInfo('Catedral (techo)', 'Visita a las cubiertas de la catedral para disfrutar de unas vistas espectaculares y una perspectiva única de la plaza.')">
-                    <div class="card-title">Catedral (techo)</div>
+                    <div class="card-header">
+                        <div class="card-title">Catedral (techo)</div>
+                        <button class="ticket-btn" onclick="openTickets(event)">🎟️ Tickets</button>
+                    </div>
                 </div>
                 <div class="card" onclick="showInfo('Monasterio', 'Visita al imponente Monasterio de San Martín Pinario, una de las joyas del barroco gallego.')">
-                    <div class="card-title">Monasterio</div>
+                    <div class="card-header">
+                        <div class="card-title">Monasterio</div>
+                        <button class="ticket-btn" onclick="openTickets(event)">🎟️ Tickets</button>
+                    </div>
                 </div>
             </div>
 
             <!-- DÍA 2 -->
+            <!-- DÍA 2 -->
             <div class="day-view" data-date="2026-07-30">
-                <div class="day-title">30 de Julio: Padrón</div>
+                <div class="day-title">Jueves 30: Padrón</div>
                 
                 <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&waypoints=Padron,A+Coruna&travelmode=driving" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta en coche a Padrón</a>
 
@@ -298,7 +346,10 @@
                     <div class="card-title">Barca (piedra bajo el altar)</div>
                 </div>
                 <div class="card" onclick="showInfo('Casa Rosalía de Castro', 'Museo situado en la casa donde vivió y pasó sus últimos días la autora más representativa de la literatura gallega.')">
-                    <div class="card-title">Casa Rosalía de Castro</div>
+                    <div class="card-header">
+                        <div class="card-title">Casa Rosalía de Castro</div>
+                        <button class="ticket-btn" onclick="openTickets(event)">🎟️ Tickets</button>
+                    </div>
                 </div>
                 <div class="card" onclick="showInfo('Santiaguiño (pasar piedra)', 'Monte de peregrinación tradicional lleno de misticismo, donde es costumbre cumplir con los ritos de paso en sus piedras sagradas.')">
                     <div class="card-title">Santiaguiño (pasar piedra)</div>
@@ -310,12 +361,15 @@
 
             <!-- DÍA 3 -->
             <div class="day-view" data-date="2026-07-31">
-                <div class="day-title">31 de Julio: La Coruña</div>
+                <div class="day-title">Viernes 31: La Coruña</div>
                 
                 <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&waypoints=La+Coruna&travelmode=driving" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta en coche a La Coruña</a>
 
                 <div class="card" onclick="showInfo('Torre de Hércules', 'El faro romano en funcionamiento más antiguo del mundo, declarado Patrimonio de la Humanidad por la UNESCO.')">
-                    <div class="card-title">Torre de Hércules</div>
+                    <div class="card-header">
+                        <div class="card-title">Torre de Hércules</div>
+                        <button class="ticket-btn" onclick="openTickets(event)">🎟️ Tickets</button>
+                    </div>
                 </div>
                 <div class="card" onclick="showInfo('Plaza María Pita', 'Centro neurálgico coruñés, presidido por la estatua de la heroína local y el majestuoso palacio municipal.')">
                     <div class="card-title">Plaza María Pita</div>
@@ -336,7 +390,7 @@
 
             <!-- DÍA 4 -->
             <div class="day-view" data-date="2026-08-01">
-                <div class="day-title">1 de Agosto: La Toja</div>
+                <div class="day-title">Sábado 1: La Toja</div>
                 
                 <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&waypoints=Isla+de+La+Toja&travelmode=driving" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta en coche a La Toja</a>
 
@@ -353,12 +407,15 @@
 
             <!-- DÍA 5 -->
             <div class="day-view" data-date="2026-08-02">
-                <div class="day-title">2 de Agosto: Santiago 2</div>
+                <div class="day-title">Domingo 2: Santiago 2</div>
                 
                 <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&waypoints=Mercado+de+Abastos,Santiago+de+Compostela&travelmode=driving" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta en coche por Santiago</a>
 
                 <div class="card" onclick="showInfo('Museo Peregrino', 'Espacio cultural que expone la profunda historia y el fenómeno de las peregrinaciones a lo largo de los siglos.')">
-                    <div class="card-title">Museo Peregrino</div>
+                    <div class="card-header">
+                        <div class="card-title">Museo Peregrino</div>
+                        <button class="ticket-btn" onclick="openTickets(event)">🎟️ Tickets</button>
+                    </div>
                 </div>
                 <div class="card" onclick="showInfo('Parque de la Alameda', 'El parque más querido por los compostelanos, ofrece las mejores vistas fotográficas de la catedral entre robles centenarios.')">
                     <div class="card-title">Parque de la Alameda</div>
@@ -373,7 +430,7 @@
 
             <!-- DÍA 6 -->
             <div class="day-view" data-date="2026-08-03">
-                <div class="day-title">3 de Agosto: Pontevedra</div>
+                <div class="day-title">Lunes 3: Pontevedra</div>
                 
                 <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&waypoints=Pontevedra&travelmode=driving" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta en coche a Pontevedra</a>
 
@@ -396,7 +453,7 @@
 
             <!-- DÍAS EXTRA HASTA EL REGRESO -->
             <div class="day-view" data-date="2026-08-04">
-                <div class="day-title">4 de Agosto: Día Libre</div>
+                <div class="day-title">Martes 4: Día Libre</div>
                 
                 <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&travelmode=driving" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta libre en coche</a>
 
@@ -407,7 +464,7 @@
 
             <!-- ÚLTIMO DÍA -->
             <div class="day-view" data-date="2026-08-05">
-                <div class="day-title">5 de Agosto: Regreso</div>
+                <div class="day-title">Miércoles 5: Regreso</div>
                 
                 <div class="action-buttons">
                     <div class="btn" style="width: 100%;">✈️ Billetes Avión</div>
@@ -426,15 +483,48 @@
     <!-- MODAL DE INFORMACIÓN -->
     <div id="info-modal">
         <div class="modal-content">
-            <h3 class="modal-title" id="modal-title">Título</h3>
-            <p class="modal-body" id="modal-desc">Descripción</p>
-            <button class="close-btn" onclick="closeInfo()">Cerrar</button>
+            <img id="modal-img" src="" class="modal-image" alt="Imagen del lugar">
+            <div class="modal-body-content">
+                <h3 class="modal-title" id="modal-title">Título</h3>
+                <p class="modal-body" id="modal-desc">Descripción</p>
+                <button class="close-btn" onclick="closeInfo()">Cerrar</button>
+            </div>
         </div>
     </div>
 
     <script>
         const tripDate = new Date(2026, 6, 29); 
         
+        const cardImages = {
+            'Free Tour': 'https://images.unsplash.com/photo-1599527266786-fb7c9eb11c64?w=400&h=200&fit=crop',
+            'Catedral (techo)': 'https://images.unsplash.com/photo-1594917457713-392bc6913693?w=400&h=200&fit=crop',
+            'Monasterio': 'https://images.unsplash.com/photo-1629806655848-129672eb7ee6?w=400&h=200&fit=crop',
+            'Barca (piedra bajo el altar)': 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&h=200&fit=crop',
+            'Casa Rosalía de Castro': 'https://images.unsplash.com/photo-1480796927426-f609979314bd?w=400&h=200&fit=crop',
+            'Santiaguiño (pasar piedra)': 'https://images.unsplash.com/photo-1518099074172-2e47ee6cb394?w=400&h=200&fit=crop',
+            'Vistas': 'https://images.unsplash.com/photo-1506744626753-14a73111b151?w=400&h=200&fit=crop',
+            'Torre de Hércules': 'https://images.unsplash.com/photo-1632761899144-84cbfd8a4f66?w=400&h=200&fit=crop',
+            'Plaza María Pita': 'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=400&h=200&fit=crop',
+            'Plaza Sta. Catalina': 'https://images.unsplash.com/photo-1494522855154-9297ac14b55f?w=400&h=200&fit=crop',
+            'Paseo Espejos': 'https://images.unsplash.com/photo-1499696954273-03023253ce52?w=400&h=200&fit=crop',
+            'Parque (llora césped)': 'https://images.unsplash.com/photo-1508349937151-22b68b72d5b1?w=400&h=200&fit=crop',
+            'Mercería La Crisálida': 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=200&fit=crop',
+            'Tienda de Museo: La toja manantiales': 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=400&h=200&fit=crop',
+            'Iglesia de las Conchas': 'https://images.unsplash.com/photo-1548625361-ec8536ca2cf3?w=400&h=200&fit=crop',
+            'Abalorios de conchas (aldea comercial)': 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=400&h=200&fit=crop',
+            'Museo Peregrino': 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=400&h=200&fit=crop',
+            'Parque de la Alameda': 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=400&h=200&fit=crop',
+            'Mercado de Abastos': 'https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=400&h=200&fit=crop',
+            'Tortilla / Pastelería': 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=200&fit=crop',
+            'Casco histórico': 'https://images.unsplash.com/photo-1605625450849-5f2575dcaf30?w=400&h=200&fit=crop',
+            'Casa museo de Colón': 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=400&h=200&fit=crop',
+            'Basílica Sto Mª la Mayor': 'https://images.unsplash.com/photo-1548625149-fc4a29cee661?w=400&h=200&fit=crop',
+            'Ruinas de Sto Domingo': 'https://images.unsplash.com/photo-1560961911-ba7ef651a56c?w=400&h=200&fit=crop',
+            'Plaza de la leña': 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=200&fit=crop',
+            'Día de disfrute': 'https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=400&h=200&fit=crop',
+            'Fin del viaje': 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&h=200&fit=crop'
+        };
+
         function updateApp() {
             const now = new Date();
             tripDate.setHours(0,0,0,0);
@@ -499,6 +589,15 @@
         function showInfo(title, description) {
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-desc').innerHTML = description;
+            
+            const imgEl = document.getElementById('modal-img');
+            if (cardImages[title]) {
+                imgEl.src = cardImages[title];
+                imgEl.style.display = 'block';
+            } else {
+                imgEl.style.display = 'none';
+            }
+            
             document.getElementById('info-modal').style.display = 'flex';
         }
         
@@ -512,11 +611,18 @@
                 <strong>${address}</strong><br><br>
                 <a href="${mapsUrl}" target="_blank" class="btn" style="width:100%; display:inline-block; text-align:center; text-decoration:none; margin-top:10px;">📍 Ver en Google Maps</a>
             `;
+            document.getElementById('modal-img').style.display = 'none';
             document.getElementById('info-modal').style.display = 'flex';
         }
 
         function closeInfo() {
             document.getElementById('info-modal').style.display = 'none';
+        }
+
+        function openTickets(event) {
+            event.stopPropagation(); // Evita que se abra la descripción de debajo
+            alert("Aquí irá el enlace directo para comprar o reservar tus entradas.");
+            // Ejemplo para el futuro: window.open('https://...', '_blank');
         }
 
         window.onload = function() {
