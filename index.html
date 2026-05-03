@@ -153,6 +153,49 @@
             color: var(--primary);
         }
 
+        /* Selector de días */
+        .day-selector {
+            display: flex;
+            background-color: var(--primary);
+            padding: 0 15px 15px 15px;
+            overflow-x: auto;
+            gap: 12px;
+            scroll-behavior: smooth;
+        }
+
+        .day-selector::-webkit-scrollbar {
+            display: none;
+        }
+
+        .day-tab {
+            background-color: rgba(255,255,255,0.15);
+            color: white;
+            min-width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .day-tab.active {
+            background-color: var(--accent);
+            transform: scale(1.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
         /* Modal para descripciones */
         #info-modal {
             display: none;
@@ -196,14 +239,6 @@
             font-size: 1rem;
             cursor: pointer;
         }
-
-        .nav-hint {
-            text-align: center;
-            color: #888;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            margin-bottom: -5px;
-        }
     </style>
 </head>
 <body>
@@ -218,7 +253,16 @@
     <div id="itinerary-screen">
         <header>Viaje a Galicia 2026</header>
         
-        <div class="nav-hint">Desliza a los lados para cambiar de día</div>
+        <div class="day-selector" id="day-selector">
+            <div class="day-tab active" onclick="scrollToDay('2026-07-29')" data-tab="2026-07-29">29</div>
+            <div class="day-tab" onclick="scrollToDay('2026-07-30')" data-tab="2026-07-30">30</div>
+            <div class="day-tab" onclick="scrollToDay('2026-07-31')" data-tab="2026-07-31">31</div>
+            <div class="day-tab" onclick="scrollToDay('2026-08-01')" data-tab="2026-08-01">1</div>
+            <div class="day-tab" onclick="scrollToDay('2026-08-02')" data-tab="2026-08-02">2</div>
+            <div class="day-tab" onclick="scrollToDay('2026-08-03')" data-tab="2026-08-03">3</div>
+            <div class="day-tab" onclick="scrollToDay('2026-08-04')" data-tab="2026-08-04">4</div>
+            <div class="day-tab" onclick="scrollToDay('2026-08-05')" data-tab="2026-08-05">5</div>
+        </div>
 
         <div class="days-slider" id="slider">
             
@@ -228,8 +272,10 @@
                 
                 <div class="action-buttons">
                     <div class="btn">✈️ Billetes Avión</div>
-                    <div class="btn">🏨 Alojamiento</div>
+                    <div class="btn" onclick="showAlojamiento()">🏨 Alojamiento</div>
                 </div>
+                
+                <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&waypoints=Catedral+de+Santiago+de+Compostela%7CMonasterio+de+San+Martin+Pinario&travelmode=walking" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta andando (Catedral y Monasterio)</a>
 
                 <div class="card" onclick="showInfo('Free Tour', 'Paseo guiado por las calles principales para conocer a fondo la historia y los secretos que esconde la ciudad monumental.')">
                     <div class="card-title">Free Tour</div>
@@ -245,6 +291,9 @@
             <!-- DÍA 2 -->
             <div class="day-view" data-date="2026-07-30">
                 <div class="day-title">30 de Julio: Padrón</div>
+                
+                <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&waypoints=Padron,A+Coruna&travelmode=driving" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta en coche a Padrón</a>
+
                 <div class="card" onclick="showInfo('Barca (piedra bajo el altar)', 'El Pedrón, lugar legendario bajo el altar donde se dice que fue amarrada la barca que transportaba los restos del Apóstol.')">
                     <div class="card-title">Barca (piedra bajo el altar)</div>
                 </div>
@@ -262,6 +311,9 @@
             <!-- DÍA 3 -->
             <div class="day-view" data-date="2026-07-31">
                 <div class="day-title">31 de Julio: La Coruña</div>
+                
+                <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&waypoints=La+Coruna&travelmode=driving" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta en coche a La Coruña</a>
+
                 <div class="card" onclick="showInfo('Torre de Hércules', 'El faro romano en funcionamiento más antiguo del mundo, declarado Patrimonio de la Humanidad por la UNESCO.')">
                     <div class="card-title">Torre de Hércules</div>
                 </div>
@@ -285,6 +337,9 @@
             <!-- DÍA 4 -->
             <div class="day-view" data-date="2026-08-01">
                 <div class="day-title">1 de Agosto: La Toja</div>
+                
+                <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&waypoints=Isla+de+La+Toja&travelmode=driving" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta en coche a La Toja</a>
+
                 <div class="card" onclick="showInfo('Tienda de Museo: La toja manantiales', 'Espacio dedicado a la historia de las aguas termales y los famosos productos cosméticos y jabones de la isla.')">
                     <div class="card-title">Tienda de Museo: La toja manantiales</div>
                 </div>
@@ -299,6 +354,9 @@
             <!-- DÍA 5 -->
             <div class="day-view" data-date="2026-08-02">
                 <div class="day-title">2 de Agosto: Santiago 2</div>
+                
+                <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&waypoints=Mercado+de+Abastos,Santiago+de+Compostela&travelmode=driving" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta en coche por Santiago</a>
+
                 <div class="card" onclick="showInfo('Museo Peregrino', 'Espacio cultural que expone la profunda historia y el fenómeno de las peregrinaciones a lo largo de los siglos.')">
                     <div class="card-title">Museo Peregrino</div>
                 </div>
@@ -316,6 +374,9 @@
             <!-- DÍA 6 -->
             <div class="day-view" data-date="2026-08-03">
                 <div class="day-title">3 de Agosto: Pontevedra</div>
+                
+                <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&waypoints=Pontevedra&travelmode=driving" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta en coche a Pontevedra</a>
+
                 <div class="card" onclick="showInfo('Casco histórico', 'Una de las zonas monumentales mejor conservadas de Galicia, totalmente peatonal y llena de vida.')">
                     <div class="card-title">Casco histórico</div>
                 </div>
@@ -336,6 +397,9 @@
             <!-- DÍAS EXTRA HASTA EL REGRESO -->
             <div class="day-view" data-date="2026-08-04">
                 <div class="day-title">4 de Agosto: Día Libre</div>
+                
+                <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&travelmode=driving" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta libre en coche</a>
+
                 <div class="card" onclick="showInfo('Día de disfrute', 'Aprovechad para repasar los lugares favoritos o hacer compras de última hora.')">
                     <div class="card-title">Tiempo libre</div>
                 </div>
@@ -348,6 +412,8 @@
                 <div class="action-buttons">
                     <div class="btn" style="width: 100%;">✈️ Billetes Avión</div>
                 </div>
+                
+                <a href="https://www.google.com/maps/dir/?api=1&origin=Av.+da+Mestra+Victoria+Miguez,+41,+Santiago+de+Compostela&destination=Aeropuerto+de+Santiago+de+Compostela&travelmode=driving" target="_blank" class="btn" style="margin-bottom: 20px; text-decoration: none;">🗺️ Ruta en coche al Aeropuerto</a>
 
                 <div class="card" onclick="showInfo('Fin del viaje', 'Hora de recoger la furgoneta, dirigirse al aeropuerto y tener un buen viaje de vuelta a casa.')">
                     <div class="card-title">Vuelta a casa</div>
@@ -367,12 +433,10 @@
     </div>
 
     <script>
-        // Fecha objetivo: 29 de Julio de 2026 (meses empiezan en 0 en JS, por lo que Julio es 6)
         const tripDate = new Date(2026, 6, 29); 
         
         function updateApp() {
             const now = new Date();
-            // Poniendo la hora de la fecha objetivo a media noche para que la cuenta sea de días enteros
             tripDate.setHours(0,0,0,0);
             now.setHours(0,0,0,0);
             
@@ -384,12 +448,10 @@
             const countdownText = document.getElementById('countdown-text');
 
             if (daysLeft <= 0) {
-                // Ya estamos en el viaje
                 countdownScreen.style.display = 'none';
                 itineraryScreen.style.display = 'flex';
                 scrollToCurrentDay(new Date()); 
             } else {
-                // Cuenta atrás
                 countdownScreen.style.display = 'flex';
                 itineraryScreen.style.display = 'none';
 
@@ -400,23 +462,21 @@
                     countdownText.innerText = 'Quedan ' + daysLeft + ' días para el Viaje a Santiago de Compostela';
                     
                     if (daysLeft <= 10) {
-                        countdownScreen.style.backgroundColor = '#F44336'; // Rojo
+                        countdownScreen.style.backgroundColor = '#F44336';
                     } else if (daysLeft <= 25) {
-                        countdownScreen.style.backgroundColor = '#FF9800'; // Naranja oscuro
+                        countdownScreen.style.backgroundColor = '#FF9800';
                     } else if (daysLeft <= 50) {
-                        countdownScreen.style.backgroundColor = '#FFC107'; // Amarillo
+                        countdownScreen.style.backgroundColor = '#FFC107';
                     } else {
-                        countdownScreen.style.backgroundColor = '#4CAF50'; // Verde
+                        countdownScreen.style.backgroundColor = '#4CAF50';
                     }
                 }
             }
         }
 
         function skipCountdown() {
-            // Función de ayuda para ver el itinerario saltándose la cuenta atrás
             document.getElementById('countdown-screen').style.display = 'none';
             document.getElementById('itinerary-screen').style.display = 'flex';
-            // Simular que es el 29 de julio para que haga scroll al primer día
             const simulatedDate = new Date(2026, 6, 29);
             scrollToCurrentDay(simulatedDate);
         }
@@ -426,19 +486,32 @@
             const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
             const dd = String(currentDate.getDate()).padStart(2, '0');
             const todayStr = yyyy + '-' + mm + '-' + dd;
+            scrollToDay(todayStr);
+        }
 
-            const targetDay = document.querySelector('.day-view[data-date="' + todayStr + '"]');
-            
+        function scrollToDay(dateStr) {
+            const targetDay = document.querySelector('.day-view[data-date="' + dateStr + '"]');
             if (targetDay) {
-                setTimeout(() => {
-                    targetDay.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-                }, 300);
+                targetDay.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
             }
         }
 
         function showInfo(title, description) {
             document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-desc').innerText = description;
+            document.getElementById('modal-desc').innerHTML = description;
+            document.getElementById('info-modal').style.display = 'flex';
+        }
+        
+        function showAlojamiento() {
+            const address = "Av. da Mestra Victoria Míguez, 41, Santiago de Compostela, A Coruña, 15706, España";
+            const mapsUrl = "https://www.google.com/maps/search/?api=1&query=Av.+da+Mestra+Victoria+Míguez,+41,+Santiago+de+Compostela";
+            
+            document.getElementById('modal-title').innerText = 'Alojamiento';
+            document.getElementById('modal-desc').innerHTML = `
+                Dirección:<br>
+                <strong>${address}</strong><br><br>
+                <a href="${mapsUrl}" target="_blank" class="btn" style="width:100%; display:inline-block; text-align:center; text-decoration:none; margin-top:10px;">📍 Ver en Google Maps</a>
+            `;
             document.getElementById('info-modal').style.display = 'flex';
         }
 
@@ -446,9 +519,25 @@
             document.getElementById('info-modal').style.display = 'none';
         }
 
-        // Inicializar la app al cargar
         window.onload = function() {
             updateApp();
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const date = entry.target.getAttribute('data-date');
+                        document.querySelectorAll('.day-tab').forEach(tab => {
+                            tab.classList.remove('active');
+                            if(tab.getAttribute('data-tab') === date) {
+                                tab.classList.add('active');
+                                tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                            }
+                        });
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            document.querySelectorAll('.day-view').forEach(day => observer.observe(day));
         };
     </script>
 </body>
