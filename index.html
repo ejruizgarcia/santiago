@@ -77,7 +77,39 @@
             text-align: center;
             font-size: 1.2rem;
             font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Selector de días */
+        .day-selector {
+            display: flex;
+            background-color: var(--primary);
+            padding: 0 15px 15px 15px;
+            overflow-x: auto;
+            gap: 12px;
+            scroll-behavior: smooth;
+        }
+
+        .day-selector::-webkit-scrollbar {
+            display: none;
+        }
+
+        .day-tab {
+            background-color: rgba(255,255,255,0.15);
+            color: white;
+            min-width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .day-tab.active {
+            background-color: var(--accent);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         .days-slider {
@@ -130,6 +162,7 @@
             gap: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             cursor: pointer;
+            min-width: 120px;
         }
 
         /* Tarjetas de visitas */
@@ -148,50 +181,17 @@
             transform: scale(0.98);
         }
 
-        .card-title {
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: var(--primary);
-        }
-
-        /* Selector de días */
-        .day-selector {
-            display: flex;
-            background-color: var(--primary);
-            padding: 0 15px 15px 15px;
-            overflow-x: auto;
-            gap: 12px;
-            scroll-behavior: smooth;
-        }
-
-        .day-selector::-webkit-scrollbar {
-            display: none;
-        }
-
-        .day-tab {
-            background-color: rgba(255,255,255,0.15);
-            color: white;
-            min-width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .day-tab.active {
-            background-color: var(--accent);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
         /* Contenedor flexible para el título y el botón dentro de la tarjeta */
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--primary);
         }
 
         /* Botón de tickets */
@@ -209,15 +209,6 @@
         
         .ticket-btn:active {
             transform: scale(0.95);
-        }
-
-        header {
-            background-color: var(--primary);
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
         }
 
         /* Modal para descripciones */
@@ -241,6 +232,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            max-height: 90vh;
         }
 
         .modal-image {
@@ -252,6 +244,7 @@
 
         .modal-body-content {
             padding: 25px;
+            overflow-y: auto;
         }
 
         .modal-title {
@@ -335,7 +328,6 @@
                 </div>
             </div>
 
-            <!-- DÍA 2 -->
             <!-- DÍA 2 -->
             <div class="day-view" data-date="2026-07-30">
                 <div class="day-title">Jueves 30: Padrón</div>
@@ -494,33 +486,34 @@
 
     <script>
         const tripDate = new Date(2026, 6, 29); 
+        const basePath = "https://raw.githubusercontent.com/ejruizgarcia/images/main/";
         
         const cardImages = {
-            'Free Tour': 'https://images.unsplash.com/photo-1599527266786-fb7c9eb11c64?w=400&h=200&fit=crop',
-            'Catedral (techo)': 'https://images.unsplash.com/photo-1594917457713-392bc6913693?w=400&h=200&fit=crop',
-            'Monasterio': 'https://images.unsplash.com/photo-1629806655848-129672eb7ee6?w=400&h=200&fit=crop',
-            'Barca (piedra bajo el altar)': 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&h=200&fit=crop',
-            'Casa Rosalía de Castro': 'https://images.unsplash.com/photo-1480796927426-f609979314bd?w=400&h=200&fit=crop',
-            'Santiaguiño (pasar piedra)': 'https://images.unsplash.com/photo-1518099074172-2e47ee6cb394?w=400&h=200&fit=crop',
-            'Vistas': 'https://images.unsplash.com/photo-1506744626753-14a73111b151?w=400&h=200&fit=crop',
-            'Torre de Hércules': 'https://images.unsplash.com/photo-1632761899144-84cbfd8a4f66?w=400&h=200&fit=crop',
-            'Plaza María Pita': 'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=400&h=200&fit=crop',
-            'Plaza Sta. Catalina': 'https://images.unsplash.com/photo-1494522855154-9297ac14b55f?w=400&h=200&fit=crop',
-            'Paseo Espejos': 'https://images.unsplash.com/photo-1499696954273-03023253ce52?w=400&h=200&fit=crop',
-            'Parque (llora césped)': 'https://images.unsplash.com/photo-1508349937151-22b68b72d5b1?w=400&h=200&fit=crop',
-            'Mercería La Crisálida': 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=200&fit=crop',
+            'Free Tour': basePath + 'freetour.png',
+            'Catedral (techo)': basePath + 'techocatedral.png',
+            'Monasterio': basePath + 'monasterio.png',
+            'Barca (piedra bajo el altar)': basePath + 'padronbarca.png',
+            'Casa Rosalía de Castro': basePath + 'casarosaliadecastro.png',
+            'Santiaguiño (pasar piedra)': basePath + 'santiaguino.png',
+            'Vistas': basePath + 'padronvisitas.png',
+            'Torre de Hércules': basePath + 'torredehercules.png',
+            'Plaza María Pita': basePath + 'plazademariapita.png',
+            'Plaza Sta. Catalina': basePath + 'plazasantacatalina.png',
+            'Paseo Espejos': basePath + 'paseoespejos.png',
+            'Parque (llora césped)': basePath + 'parquelloracesped.png',
+            'Mercería La Crisálida': basePath + 'merceriacrisalida.png',
             'Tienda de Museo: La toja manantiales': 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=400&h=200&fit=crop',
-            'Iglesia de las Conchas': 'https://images.unsplash.com/photo-1548625361-ec8536ca2cf3?w=400&h=200&fit=crop',
-            'Abalorios de conchas (aldea comercial)': 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=400&h=200&fit=crop',
-            'Museo Peregrino': 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=400&h=200&fit=crop',
-            'Parque de la Alameda': 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=400&h=200&fit=crop',
-            'Mercado de Abastos': 'https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=400&h=200&fit=crop',
-            'Tortilla / Pastelería': 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=200&fit=crop',
-            'Casco histórico': 'https://images.unsplash.com/photo-1605625450849-5f2575dcaf30?w=400&h=200&fit=crop',
-            'Casa museo de Colón': 'https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=400&h=200&fit=crop',
-            'Basílica Sto Mª la Mayor': 'https://images.unsplash.com/photo-1548625149-fc4a29cee661?w=400&h=200&fit=crop',
-            'Ruinas de Sto Domingo': 'https://images.unsplash.com/photo-1560961911-ba7ef651a56c?w=400&h=200&fit=crop',
-            'Plaza de la leña': 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=200&fit=crop',
+            'Iglesia de las Conchas': basePath + 'tojaiglesiaconchas.png',
+            'Abalorios de conchas (aldea comercial)': basePath + 'tojapuestosavalorios.png',
+            'Museo Peregrino': basePath + 'museoperegrino.png',
+            'Parque de la Alameda': basePath + 'parquealameda.png',
+            'Mercado de Abastos': basePath + 'mercadodeabastos.png',
+            'Tortilla / Pastelería': basePath + 'tortilleria.png',
+            'Casco histórico': basePath + 'pontevedracascohistorico.png',
+            'Casa museo de Colón': basePath + 'casamuseocolon.png',
+            'Basílica Sto Mª la Mayor': basePath + 'pontevedrabasilicalamayor.png',
+            'Ruinas de Sto Domingo': basePath + 'ruinasantodomingo.png',
+            'Plaza de la leña': basePath + 'plazalenas.png',
             'Día de disfrute': 'https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=400&h=200&fit=crop',
             'Fin del viaje': 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&h=200&fit=crop'
         };
@@ -620,9 +613,8 @@
         }
 
         function openTickets(event) {
-            event.stopPropagation(); // Evita que se abra la descripción de debajo
+            event.stopPropagation(); 
             alert("Aquí irá el enlace directo para comprar o reservar tus entradas.");
-            // Ejemplo para el futuro: window.open('https://...', '_blank');
         }
 
         window.onload = function() {
